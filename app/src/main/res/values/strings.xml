@@ -1,4 +1,402 @@
 <resources>
     <string name="app_name">Stocks</string>
     <string name="search_title">Search</string>
+    <string name="stock_line_graph_html">
+    <![CDATA[
+        <!DOCTYPE html>
+        <html>
+            <head>
+            <style>
+                #container {
+                    height: 900px;
+                    min-height: 75vh;
+                }
+            </style>
+            <script src="https://code.highcharts.com/stock/highstock.js"></script>
+            <script src="https://code.highcharts.com/stock/modules/data.js"></script>
+
+            <script src="https://code.highcharts.com/stock/indicators/indicators-all.js"></script>
+            <script src="https://code.highcharts.com/stock/modules/drag-panes.js"></script>
+
+            <script src="https://code.highcharts.com/modules/annotations-advanced.js"></script>
+            <script src="https://code.highcharts.com/modules/price-indicator.js"></script>
+            <script src="https://code.highcharts.com/modules/full-screen.js"></script>
+
+            <script src="https://code.highcharts.com/modules/stock-tools.js"></script>
+
+            <script src="https://code.highcharts.com/stock/modules/heikinashi.js"></script>
+            <script src="https://code.highcharts.com/stock/modules/hollowcandlestick.js"></script>
+            <script type=\'text/javascript\'>
+                function loadLineGraph(ticker, timestamp, chart_color) {
+                    fetch(`http://10.0.2.2:8080/apis/stocks/lastChartPrices?ticker=${ticker}&timestamp=${timestamp}`).then(response => response.json()).then(data => {
+
+                        Highcharts.stockChart(\'container\', {
+                          chart: {
+                            backgroundColor: \'#f7f7f7\',
+                            height: \'80%\',
+                            type: \'stockChart\'
+                          },
+                          title: {
+                            text: undefined
+                          },
+
+                          rangeSelector: {
+                            enabled: false
+                          },
+                          navigator: {
+                                enabled: false,
+                          },
+                          series: [
+                            {
+                              type: \'line\',
+                              color: chart_color,
+                              name: ticker,
+                              id: \'base\',
+                              data: data
+                            },
+                          ]
+                        });
+                    });
+                };
+            </script>
+            <title></title>
+            </head>
+            <body>
+            <figure class=\'highcharts-figure\'>
+            <div id=\'container\'></div>
+            </figure>
+            </body>
+        </html>
+    ]]>
+    </string>
+    <string name="stock_history_graph_html">
+    <![CDATA[
+        <!DOCTYPE html>
+        <html>
+            <head>
+            <style>
+                #container {
+                    width: 100%;
+                    height: 800px;
+                }
+            </style>
+            <script src="https://code.highcharts.com/stock/highstock.js"></script>
+            <script src="https://code.highcharts.com/stock/modules/data.js"></script>
+
+            <script src="https://code.highcharts.com/stock/indicators/indicators-all.js"></script>
+            <script src="https://code.highcharts.com/stock/modules/drag-panes.js"></script>
+
+            <script src="https://code.highcharts.com/modules/annotations-advanced.js"></script>
+            <script src="https://code.highcharts.com/modules/price-indicator.js"></script>
+            <script src="https://code.highcharts.com/modules/full-screen.js"></script>
+
+            <script src="https://code.highcharts.com/modules/stock-tools.js"></script>
+
+            <script src="https://code.highcharts.com/stock/modules/heikinashi.js"></script>
+            <script src="https://code.highcharts.com/stock/modules/hollowcandlestick.js"></script>
+            <script type=\'text/javascript\'>
+                function loadHistoricalGraph(ticker, chart_color) {
+                    fetch(`http://10.0.2.2:8080/apis/stocks/history?ticker=${ticker}`).then(response => response.json()).then(data => {
+
+                        Highcharts.stockChart(\'container\', {
+                          chart:{
+                            backgroundColor: \'#f7f7f7\'
+                          },
+                          rangeSelector: {
+                            selected: 2
+                          },
+                          title: {
+                            text: `${ticker} Historical`
+                          },
+                          subtitle: {
+                            text: \'With SMA and Volume by Price technical indicators\'
+                          },
+                          yAxis: [{
+                            startOnTick: false,
+                            endOnTick: false,
+                            labels: {
+                              align: \'right\',
+                              x: -3
+                            },
+                            title: {
+                              text: \'OHLC\'
+                            },
+                            height: \'60%\',
+                            lineWidth: 2,
+                            resize: {
+                              enabled: true
+                            }
+                          }, {
+                            labels: {
+                              align: \'right\',
+                              x: -3
+                            },
+                            title: {
+                              text: \'Volume\'
+                            },
+                            top: \'65%\',
+                            height: \'35%\',
+                            offset: 0,
+                            lineWidth: 2
+                          }],
+                          tooltip: {
+                            split: true
+                          },
+                          series: [{
+                            type: \'candlestick\',
+                            name: `${ticker}`,
+                            id: `${ticker}`,
+                            zIndex: 2,
+                            data: data[\'ohlc\']
+                          }, {
+                            type: \'column\',
+                            name: \'Volume\',
+                            id: \'volume\',
+                            data: data[\'volume\'],
+                            yAxis: 1
+                          }, {
+                            type: \'vbp\',
+                            linkedTo: `${ticker}`,
+                            params: {
+                              volumeSeriesID: \'volume\'
+                            },
+                            dataLabels: {
+                              enabled: false
+                            },
+                            zoneLines: {
+                              enabled: false
+                            }
+                          }, {
+                            type: \'sma\',
+                            linkedTo: `${ticker}`,
+                            zIndex: 1,
+                            marker: {
+                              enabled: false
+                            }
+                          }]
+                        });
+                    });
+                };
+            </script>
+            <title></title>
+            </head>
+            <body>
+            <figure class=\'highcharts-figure\'>
+            <div id=\'container\'></div>
+            </figure>
+            </body>
+        </html>
+    ]]>
+    </string>
+    <string name="recommendation_trends_html">
+    <![CDATA[
+        <!DOCTYPE html>
+        <html>
+            <head>
+            <style>
+                #container {
+                    width: 100%;
+                    height: 800px;
+                }
+            </style>
+            <script src=\'https://code.highcharts.com/highcharts.js\'></script>
+            <script src=\'https://code.highcharts.com/modules/exporting.js\'></script>
+            <script src=\'https://code.highcharts.com/modules/export-data.js\'></script>
+            <script src=\'https://code.highcharts.com/modules/accessibility.js\'></script>
+            <script type=\'text/javascript\'>
+                function loadTrends(ticker) {
+                    fetch(`http://10.0.2.2:8080/apis/stocks/recommendation?ticker=${ticker}`).then(response => response.json()).then(data => {
+                        let strongBuyVals = [];
+                        let buyVals = [];
+                        let holdVals = [];
+                        let sellVals = [];
+                        let strongSellVals = [];
+                        let months = [];
+                        for(let i = 0; i < data.length; i++) {
+                          let element = data[i];
+                          strongBuyVals.push(element[\'strongBuy\']);
+                          buyVals.push(element[\'buy\']);
+                          holdVals.push(element[\'hold\']);
+                          sellVals.push(element[\'sell\']);
+                          strongSellVals.push(element[\'strongSell\']);
+                          months.push(element[\'period\'].substring(0,7));
+                        }
+                        Highcharts.chart(\'container\', {
+                          chart: {
+                             type: \'column\',
+                             backgroundColor: \'#f7f7f7\'
+                          },
+                          colors:[\'#176f37\',\'#1db954\',\'#b98b1d\',\'#f45b5b\',\'#813131\'],
+                          title: {
+                             text: undefined
+                          },
+                          xAxis:{
+                             categories: months, title: {
+                                text: null
+                             }
+                          },
+                          yAxis : {
+                             min: 0,
+                             title: {
+                                text: \'#Analysis\',
+                                align: \'high\'
+                             },
+                             labels: {
+                                overflow: \'justify\'
+                             }
+                          },
+                          tooltip : {
+                          },
+                          plotOptions : {
+                             column: {
+                                dataLabels: {
+                                   enabled: true
+                                }
+                             },
+                             series: {
+                                stacking: \'normal\'
+                             }
+                          },
+                          credits:{
+                             enabled: false
+                          },
+                          series: [
+                             {
+                                name: \'Strong Buy\',
+                                data: strongBuyVals
+                             },
+                             {
+                                name: \'Buy\',
+                                data: buyVals
+                             },
+                             {
+                                name: \'Hold\',
+                                data: holdVals
+                             },
+                             {
+                                name: \'Sell\',
+                                data: sellVals
+                             },
+                             {
+                                name: \'Strong Sell\',
+                                data: strongSellVals
+                             }
+                          ]
+                       });
+                    });
+                };
+            </script>
+            <title></title>
+            </head>
+            <body>
+            <figure class=\'highcharts-figure\'>
+                <div id=\'container\'></div>
+            </figure>
+            </body>
+        </html>
+    ]]>
+    </string>
+    <string name="eps_html">
+    <![CDATA[
+        <!DOCTYPE html>
+        <html>
+            <head>
+            <style>
+                #container {
+                    width: 100%;
+                    height: 800px;
+                }
+            </style>
+            <script src=\'https://code.highcharts.com/highcharts.js\'></script>
+            <script src=\'https://code.highcharts.com/modules/exporting.js\'></script>
+            <script src=\'https://code.highcharts.com/modules/export-data.js\'></script>
+            <script src=\'https://code.highcharts.com/modules/accessibility.js\'></script>
+            <script type=\'text/javascript\'>
+                function loadEPS(ticker) {
+                    fetch(`http://10.0.2.2:8080/apis/stocks/companyearning?ticker=${ticker}`).then(response => response.json()).then(data => {
+                        let actual = [];
+                        let estimate = [];
+                        let surprise = [];
+                        let categories = [];
+                        for(let i = 0; i < data.length; i++) {
+                            let element = data[i];
+                            if(element.actual==null){
+                                 element.actual = 0;
+                              }
+                              if(element.estimate==null){
+                                 element.estimate=0;
+                              }
+                              if(element.surprise==null){
+                                 element.surprise=0;
+                              }
+                              actual.push(element.actual);
+                              estimate.push(element.estimate);
+                              surprise.push(element.surprise);
+                              categories.push(element.period.substring(0,10)+\'<br/>Surprise: \'+element.surprise);
+                        }
+
+                        Highcharts.chart(\'container\', {
+                          chart: {
+                            type: \'spline\',
+                            backgroundColor: \'#f7f7f7\'
+                          },
+                          title: {
+                            text: undefined
+                          },
+                          subtitle : {
+                             style: {
+                                position: \'absolute\',
+                                right: \'0px\',
+                                bottom: \'10px\'
+                             }
+                          },
+                          xAxis:[{
+                             categories: categories
+                          },
+                          {
+                            categories: surprise
+                          }
+                        ]
+                        ,
+                          yAxis : {
+                             title: {
+                                text: \'Quarterly EPS\'
+                             }
+                          },
+                          tooltip : {
+                             shared: true,
+                          },
+                          plotOptions : {
+                             area: {
+                                fillOpacity: 0.5
+                             }
+                          },
+                          credits:{
+                            enabled: false
+                          },
+                          series: [
+                             {
+                                name: \'Actual\',
+                                data: actual
+                             },
+                             {
+                                name: \'Estimate\',
+                                data: estimate
+                             },
+                          ]
+                       });
+                    });
+                };
+            </script>
+            <title></title>
+            </head>
+            <body>
+            <figure class=\'highcharts-figure\'>
+                <div id=\'container\'></div>
+            </figure>
+            </body>
+        </html>
+    ]]>
+    </string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
