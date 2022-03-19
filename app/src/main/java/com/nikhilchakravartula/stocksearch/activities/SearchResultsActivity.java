@@ -4,28 +4,30 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.NestedScrollView;
+import androidx.viewpager2.widget.ViewPager2;
 
-import android.app.SearchManager;
 import android.content.Intent;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.QuickContactBadge;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.nikhilchakravartula.stocksearch.R;
+import com.nikhilchakravartula.stocksearch.adapters.GraphPagerAdapter;
 import com.nikhilchakravartula.stocksearch.constants.Constants;
+import com.nikhilchakravartula.stocksearch.fragments.LineGraphFragment;
 import com.nikhilchakravartula.stocksearch.models.CompanyEarningModel;
-import com.nikhilchakravartula.stocksearch.models.FavoriteStockModel;
 import com.nikhilchakravartula.stocksearch.models.NewsModel;
 import com.nikhilchakravartula.stocksearch.models.QuoteModel;
 import com.nikhilchakravartula.stocksearch.models.RecommendationModel;
 import com.nikhilchakravartula.stocksearch.models.SentimentModel;
-import com.nikhilchakravartula.stocksearch.models.StockModel;
 import com.nikhilchakravartula.stocksearch.models.StockOverviewModel;
 import com.nikhilchakravartula.stocksearch.services.CompanyEarningService;
 import com.nikhilchakravartula.stocksearch.services.NewsService;
@@ -34,7 +36,7 @@ import com.nikhilchakravartula.stocksearch.services.RecommendationService;
 import com.nikhilchakravartula.stocksearch.services.SentimentService;
 import com.nikhilchakravartula.stocksearch.services.StockOverviewService;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -52,6 +54,10 @@ public class SearchResultsActivity extends AppCompatActivity {
     List<RecommendationModel> recommendationModels;
     Map<String,List<SentimentModel>> sentimentModels;
     StockOverviewModel stockOverviewModel;
+    ArrayList<List<Double>> timestampPriceLastChartPrices;
+
+    private GraphPagerAdapter pagerAdapter;
+    private ViewPager2 viewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,11 +150,28 @@ public class SearchResultsActivity extends AppCompatActivity {
         });
 
 
+        AppCompatActivity ctx = this;
+
         QuotesService.getQuotes(this, ticker, new QuotesService.QuotesListener() {
             @Override
             public void onResponse(QuoteModel quoteModel) {
                 setQuoteModel(quoteModel);
                 updateCount();
+
+
+//                String timestamp = String.valueOf(quoteModel.getTimestamp());
+//                LastChartPricesService.getLastChartPrices(ctx, ticker, timestamp, new LastChartPricesService.LastChartPricesListener() {
+//                    @Override
+//                    public void onResponse(ArrayList<List<Double>> lastChartPrices) {
+//                        timestampPriceLastChartPrices = lastChartPrices;
+//                        updateCount();
+//                    }
+//
+//                    @Override
+//                    public void onError(String error) {
+//
+//                    }
+//                });
             }
 
             @Override
@@ -198,8 +221,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         });
     }
 
-    private void bindViews()
-    {
+    private void bindViews() {
 
         //Summary
         ((TextView)findViewById(R.id.detail_ticker)).setText(ticker);
@@ -233,6 +255,128 @@ public class SearchResultsActivity extends AppCompatActivity {
 
         scrollView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
+
+        // Hicharts
+//        HIChartView chartView = (HIChartView) findViewById(R.id.hc);
+//
+//        HIOptions options = new HIOptions();
+//        HITitle title = new HITitle();
+////        title.setText(ticker + " Hourly Price Variation");
+//        title.setText("");
+//        options.setTitle(title);
+//
+//        HILegend legend = new HILegend();
+//        legend.setEnabled(false);
+//        options.setLegend(legend);
+//
+//        HIChart chart = new HIChart();
+//        chart.setBackgroundColor(HIColor.initWithHexValue("f7f7f7"));
+//        chart.setType("stockChart");
+//
+//
+//        HILine series = new HILine();
+//        series.setData(timestampPriceLastChartPrices);
+//        series.setName(ticker);
+        String chart_color;
+        if(quoteModel.getChange() < 0) {
+            chart_color = "red";
+        } else if (quoteModel.getChange() > 0) {
+            chart_color = "green";
+        } else {
+            chart_color = "grey";
+        }
+//
+//        series.setColor(HIColor.initWithName(chart_color));
+//
+//        HICredits credits = new HICredits();
+//        credits.setEnabled(false);
+//        options.setCredits(credits);
+//
+//        HIExporting exporting = new HIExporting();
+//        exporting.setEnabled(false);
+//        options.setExporting(exporting);
+//
+//        HILabel label = new HILabel();
+//        label.setEnabled(false);
+//        series.setLabel(label);
+//
+////        series.setKeys(keys);
+//
+//        series.setYAxisDescription("");
+//
+//        options.setSeries(new ArrayList<HISeries>(Collections.singletonList(series)));
+//        options.setChart(chart);
+//        chartView.setOptions(options);
+        Bundle fragment_bundle = new Bundle();
+        fragment_bundle.putString(LineGraphFragment.TICKER_KEY, ticker);
+        fragment_bundle.putInt(LineGraphFragment.TIMESTAMP_KEY, quoteModel.getTimestamp());
+        fragment_bundle.putString(LineGraphFragment.COLOR_KEY, chart_color);
+
+        viewPager = findViewById(R.id.pager);
+        pagerAdapter = new GraphPagerAdapter(this, fragment_bundle);
+        viewPager.setAdapter(pagerAdapter);
+
+        class ConfigStrategy implements TabLayoutMediator.TabConfigurationStrategy {
+
+            @Override
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                if(position == 0) tab.setIcon(R.drawable.ic_line);
+                else tab.setIcon(R.drawable.ic_bar);
+            }
+        };
+
+        TabLayout tabLayout = findViewById(R.id.tab_layout);
+        new TabLayoutMediator(tabLayout, viewPager,
+                new ConfigStrategy()
+        ).attach();
+
+        // recommendation trends
+        WebView recommendationTrendsWebView = (WebView) findViewById(R.id.recommendation_trends);
+        WebSettings recommendationGraphSettings = recommendationTrendsWebView.getSettings();
+        recommendationGraphSettings.setJavaScriptEnabled(true);
+        recommendationGraphSettings.setDomStorageEnabled(true);
+        recommendationGraphSettings.setLoadWithOverviewMode(true);
+        recommendationGraphSettings.setUseWideViewPort(true);
+        recommendationGraphSettings.setBuiltInZoomControls(true);
+        recommendationGraphSettings.setDisplayZoomControls(false);
+        recommendationGraphSettings.setSupportZoom(true);
+        recommendationGraphSettings.setDefaultTextEncodingName("utf-8");
+
+        String recommendationTrendsContent = getString(R.string.recommendation_trends_html);
+        Log.d("cnt", recommendationTrendsContent);
+        recommendationTrendsWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                String func_call = "loadTrends(\"" + ticker + "\")";
+                recommendationTrendsWebView.evaluateJavascript("javascript:" + func_call, null);
+
+            }
+        });
+        recommendationTrendsWebView.loadDataWithBaseURL("blarg://ignored", recommendationTrendsContent, "text/html", "utf-8", "");
+
+        // eps
+        WebView epsWebView = (WebView) findViewById(R.id.eps);
+        WebSettings epsSettings = epsWebView.getSettings();
+        epsSettings.setJavaScriptEnabled(true);
+        epsSettings.setDomStorageEnabled(true);
+        epsSettings.setLoadWithOverviewMode(true);
+        epsSettings.setUseWideViewPort(true);
+        epsSettings.setBuiltInZoomControls(true);
+        epsSettings.setDisplayZoomControls(false);
+        epsSettings.setSupportZoom(true);
+        epsSettings.setDefaultTextEncodingName("utf-8");
+
+        String epsContent = getString(R.string.eps_html);
+        Log.d("cnt", epsContent);
+        epsWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                String func_call = "loadEPS(\"" + ticker + "\")";
+                epsWebView.evaluateJavascript("javascript:" + func_call, null);
+
+            }
+        });
+        epsWebView.loadDataWithBaseURL("blarg://ignored", epsContent, "text/html", "utf-8", "");
 
     }
     private void updateCount()
