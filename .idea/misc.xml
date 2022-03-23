@@ -33,9 +33,11 @@
         <entry key="app/src/main/res/drawable/social_sentiment_cell.xml" value="0.14427083333333332" />
         <entry key="app/src/main/res/drawable/social_sentiment_cell_border.xml" value="0.121875" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.375" />
-        <entry key="app/src/main/res/layout/activity_searchable.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/activity_searchable.xml" value="0.10263929618768329" />
         <entry key="app/src/main/res/layout/company_peer.xml" value="0.19293478260869565" />
         <entry key="app/src/main/res/layout/favorite_section_header.xml" value="0.10208333333333333" />
+        <entry key="app/src/main/res/layout/fragment_webview.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/highcharts_fragment.xml" value="0.1" />
         <entry key="app/src/main/res/layout/portfolio_section_header.xml" value="0.10208333333333333" />
         <entry key="app/src/main/res/layout/regular_news.xml" value="0.1578125" />
         <entry key="app/src/main/res/layout/section_header.xml" value="0.165" />
