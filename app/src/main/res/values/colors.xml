@@ -12,7 +12,7 @@
     <color name="trendingColor">@color/purple_200</color>
     <color name="red">#E82C04</color>
     <color name="green">#10A12B</color>
-
+    <color name="blue">#0000FF</color>
     <color name="colorPrimary">@color/off_white</color>
     <color name="colorPrimaryVariant">@color/black</color>
     <color name="colorOnPrimary">@color/black</color>

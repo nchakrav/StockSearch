@@ -14,6 +14,7 @@ public class PortfolioItemViewHolder extends RecyclerView.ViewHolder {
     public final TextView stockPrice;
     public final TextView stockChange;
     public final ImageView stockTrend;
+    public final ImageView detailArrow;
     public PortfolioItemViewHolder(View itemView) {
         super(itemView);
         companyTicker = (TextView) itemView.findViewById(R.id.company_ticker);
@@ -21,5 +22,6 @@ public class PortfolioItemViewHolder extends RecyclerView.ViewHolder {
         stockPrice = (TextView) itemView.findViewById(R.id.stock_price);
         stockChange = (TextView) itemView.findViewById(R.id.stock_change);
         stockTrend = (ImageView) itemView.findViewById(R.id.stock_trend);
+        detailArrow = (ImageView) itemView.findViewById(R.id.detail_arrow);
     }
 }

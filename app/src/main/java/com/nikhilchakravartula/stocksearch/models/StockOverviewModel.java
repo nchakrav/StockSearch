@@ -2,6 +2,9 @@ package com.nikhilchakravartula.stocksearch.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class StockOverviewModel {
 
     @SerializedName("country")
@@ -33,7 +36,7 @@ public class StockOverviewModel {
     @SerializedName("exchangeCode")
     private String exchangeCode;
     @SerializedName("startDate")
-    private String startDate;
+    private Date startDate;
 
     public String getCountry() {
         return country;
@@ -148,11 +151,8 @@ public class StockOverviewModel {
     }
 
     public String getStartDate() {
-        return startDate;
+        return new SimpleDateFormat("MM-dd-yyyy").format(startDate);
     }
 
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
-    }
 
 }

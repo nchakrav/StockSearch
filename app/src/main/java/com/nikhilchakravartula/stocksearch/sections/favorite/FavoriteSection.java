@@ -1,22 +1,18 @@
 package com.nikhilchakravartula.stocksearch.sections.favorite;
 
-import android.icu.number.CompactNotation;
 import android.view.View;
 
-import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.RecyclerView;
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
 
-import com.nikhilchakravartula.stocksearch.OnDetailsClickListener;
+import com.nikhilchakravartula.stocksearch.models.PortfolioStockModel;
+import com.nikhilchakravartula.stocksearch.utils.Formatter;
+import com.nikhilchakravartula.stocksearch.utils.OnDetailsClickListener;
 import com.nikhilchakravartula.stocksearch.R;
-import com.nikhilchakravartula.stocksearch.activities.MainActivity;
 import com.nikhilchakravartula.stocksearch.models.FavoriteStockModel;
-import com.nikhilchakravartula.stocksearch.models.StockListModel;
-import com.nikhilchakravartula.stocksearch.models.StockModel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class FavoriteSection extends Section {
@@ -51,28 +47,77 @@ public class FavoriteSection extends Section {
     public void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
         FavoriteItemViewHolder itemHolder = (FavoriteItemViewHolder) holder;
         // bind your view here
-        itemHolder.companyTicker.setText(itemList.get(position).getTicker());
-        itemHolder.stockPrice.setText(itemList.get(position).getStockPrice()+"");
-        itemHolder.stockChange.setText(itemList.get(position).getStockChange()+"");
+        String ticker = itemList.get(position).getTicker();
+        itemHolder.companyTicker.setText(ticker);
+        itemHolder.stockPrice.setText("$"+Formatter.format(itemList.get(position).getStockPrice()));
+        Double stockChange = itemList.get(position).getStockChange();
+        itemHolder.stockChange.setText("$"+ Formatter.format(stockChange));
         itemHolder.stockDescription.setText(itemList.get(position).getCompanyName()+"");
         itemHolder.detailArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onDetailsClickListener.onClick(itemList.get(position).getTicker());
+                onDetailsClickListener.onClick(ticker);
             }
         });
+
+        if(stockChange>0)
+        {
+            itemHolder.stockTrend.setImageResource(R.drawable.ic_twotone_trending_up_24);
+        }
+        else
+        {
+            itemHolder.stockTrend.setImageResource(R.drawable.ic_baseline_trending_down_24);
+        }
+
 
     }
 
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder) {
         FavoriteHeaderViewHolder headerHolder = (FavoriteHeaderViewHolder) holder;
-        headerHolder.headerTitle.setText("Favorites");
+        headerHolder.headerTitle.setText("FAVORITES");
     }
 
     @Override
     public RecyclerView.ViewHolder getHeaderViewHolder(View view) {
         // return an empty instance of ViewHolder for the headers of this section
         return new FavoriteHeaderViewHolder(view);
+    }
+
+    public void add(FavoriteStockModel favoriteStockModel) {
+        itemList.add(favoriteStockModel);
+    }
+
+    public int find(String ticker)
+    {
+        for(int i= 0;i<itemList.size();i++)
+        {
+            FavoriteStockModel stockModel = itemList.get(i);
+            if(stockModel.getTicker().equalsIgnoreCase(ticker))
+            {
+                return  i;
+            }
+        }
+        return -1;
+    }
+
+
+    public int findAndRemove(String ticker)
+    {
+        int pos = find(ticker);
+        if(pos!=-1) {
+            itemList.remove(pos);
+        }
+        return pos;
+    }
+
+
+    public void addAll(List<FavoriteStockModel> favoriteStockModels) {
+        for(FavoriteStockModel favoriteStockModel:favoriteStockModels)
+            add(favoriteStockModel);
+    }
+
+    public void removeAll() {
+        itemList.clear();
     }
 }

@@ -8,7 +8,7 @@ public class NewsModel {
     @SerializedName("category")
     private String category;
     @SerializedName("datetime")
-    private Integer datetime;
+    private Long datetime;
     @SerializedName("headline")
     private String headline;
     @SerializedName("id")
@@ -41,11 +41,11 @@ public class NewsModel {
         this.category = category;
     }
 
-    public Integer getDatetime() {
+    public Long getDatetime() {
         return datetime;
     }
 
-    public void setDatetime(Integer datetime) {
+    public void setDatetime(Long datetime) {
         this.datetime = datetime;
     }
 

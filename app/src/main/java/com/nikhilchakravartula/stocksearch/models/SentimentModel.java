@@ -2,79 +2,75 @@ package com.nikhilchakravartula.stocksearch.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class SentimentModel {
 
     @SerializedName("atTime")
     String atTime;
     @SerializedName("mention")
-    String mention;
+    Integer mention;
     @SerializedName("positiveScore")
-    String positiveScore;
+    Double positiveScore;
     @SerializedName("negativeScore")
-    String negativeScore;
+    Double negativeScore;
     @SerializedName("positiveMention")
-    String positiveMention;
+    Integer positiveMention;
     @SerializedName("negativeMention")
-    String negativeMention;
+    Integer negativeMention;
     @SerializedName("score")
-    String score;
+    Double score;
 
-
-    public String getAtTime() {
-        return atTime;
-    }
-
-    public void setAtTime(String atTime) {
-        this.atTime = atTime;
-    }
-
-    public String getMention() {
+    public Integer getMention() {
         return mention;
     }
 
-    public void setMention(String mention) {
+    public void setMention(Integer mention) {
         this.mention = mention;
     }
 
-    public String getPositiveScore() {
+    public Double getPositiveScore() {
         return positiveScore;
     }
 
-    public void setPositiveScore(String positiveScore) {
+    public void setPositiveScore(Double positiveScore) {
         this.positiveScore = positiveScore;
     }
 
-    public String getNegativeScore() {
+    public Double getNegativeScore() {
         return negativeScore;
     }
 
-    public void setNegativeScore(String negativeScore) {
+    public void setNegativeScore(Double negativeScore) {
         this.negativeScore = negativeScore;
     }
 
-    public String getPositiveMention() {
+    public Integer getPositiveMention() {
         return positiveMention;
     }
 
-    public void setPositiveMention(String positiveMention) {
+    public void setPositiveMention(Integer positiveMention) {
         this.positiveMention = positiveMention;
     }
 
-    public String getNegativeMention() {
+    public Integer getNegativeMention() {
         return negativeMention;
     }
 
-    public void setNegativeMention(String negativeMention) {
+    public void setNegativeMention(Integer negativeMention) {
         this.negativeMention = negativeMention;
     }
 
-    public String getScore() {
+    public Double getScore() {
         return score;
     }
 
-    public void setScore(String score) {
+    public void setScore(Double score) {
         this.score = score;
     }
 
-
+    public String getAtTime() {
+        return new SimpleDateFormat("MM-dd-yyyy").format(atTime);
+    }
 }

@@ -50,6 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+
         android:text="$8591.27 available to buy AMZN"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -63,7 +64,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="40dp"
-        android:background="@drawable/rounded_corners"
+        android:backgroundTint="@color/green"
+
         android:text="BUY"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -78,7 +80,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="40dp"
-        android:background="@drawable/rounded_corners"
+        android:backgroundTint="@color/green"
         android:text="SELL"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"

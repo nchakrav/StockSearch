@@ -5,6 +5,10 @@ public class FavoriteStockModel extends StockModel{
 
     String companyName;
 
+    public FavoriteStockModel()
+    {
+        this("",0.0,0.0,"");
+    }
     public FavoriteStockModel(String ticker,
                                Double stockPrice,
                                Double stockChange,

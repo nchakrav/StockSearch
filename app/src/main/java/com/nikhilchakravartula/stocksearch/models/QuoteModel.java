@@ -2,6 +2,9 @@ package com.nikhilchakravartula.stocksearch.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class QuoteModel {
 
     @SerializedName("c")
@@ -41,7 +44,7 @@ public class QuoteModel {
     @SerializedName("timestamp")
     private Integer timestamp;
     @SerializedName("humantimestamp")
-    private String humantimestamp;
+    private Date humantimestamp;
     @SerializedName("marketOpen")
     private Boolean marketOpen;
 
@@ -190,12 +193,9 @@ public class QuoteModel {
     }
 
     public String getHumantimestamp() {
-        return humantimestamp;
+        return new SimpleDateFormat("MM-dd-yyyy").format(humantimestamp);
     }
 
-    public void setHumantimestamp(String humantimestamp) {
-        this.humantimestamp = humantimestamp;
-    }
 
     public Boolean getMarketOpen() {
         return marketOpen;

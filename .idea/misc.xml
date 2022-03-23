@@ -17,7 +17,9 @@
         <entry key="app/src/main/res/drawable/ic_baseline_trending_down_24.xml" value="0.25416666666666665" />
         <entry key="app/src/main/res/drawable/ic_chrome.xml" value="0.25416666666666665" />
         <entry key="app/src/main/res/drawable/ic_delete.xml" value="0.1546875" />
+        <entry key="app/src/main/res/drawable/ic_facebook.xml" value="0.2109375" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.25416666666666665" />
+        <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.14427083333333332" />
         <entry key="app/src/main/res/drawable/ic_search_black_24dp.xml" value="0.25416666666666665" />
         <entry key="app/src/main/res/drawable/ic_twitter_logo.xml" value="0.25416666666666665" />
         <entry key="app/src/main/res/drawable/ic_twitter_logo_dialog.xml" value="0.25416666666666665" />
@@ -28,18 +30,24 @@
         <entry key="app/src/main/res/drawable/rounded_corners.xml" value="0.25416666666666665" />
         <entry key="app/src/main/res/drawable/rounded_corners_without_border.xml" value="0.25416666666666665" />
         <entry key="app/src/main/res/drawable/share_drawable.xml" value="0.11822916666666666" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1203125" />
-        <entry key="app/src/main/res/layout/activity_searchable.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/social_sentiment_cell.xml" value="0.14427083333333332" />
+        <entry key="app/src/main/res/drawable/social_sentiment_cell_border.xml" value="0.121875" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/activity_searchable.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/company_peer.xml" value="0.19293478260869565" />
         <entry key="app/src/main/res/layout/favorite_section_header.xml" value="0.10208333333333333" />
         <entry key="app/src/main/res/layout/portfolio_section_header.xml" value="0.10208333333333333" />
+        <entry key="app/src/main/res/layout/regular_news.xml" value="0.1578125" />
         <entry key="app/src/main/res/layout/section_header.xml" value="0.165" />
         <entry key="app/src/main/res/layout/section_item.xml" value="0.25" />
         <entry key="app/src/main/res/layout/share_dialog.xml" value="0.25" />
         <entry key="app/src/main/res/layout/success_dialog.xml" value="0.10208333333333333" />
+        <entry key="app/src/main/res/layout/top_news.xml" value="0.335" />
         <entry key="app/src/main/res/layout/trade_dialog.xml" value="0.25" />
         <entry key="app/src/main/res/menu/favorites.xml" value="0.11666666666666667" />
         <entry key="app/src/main/res/menu/main.xml" value="0.1203125" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.25416666666666665" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1734375" />
       </map>
     </option>
   </component>

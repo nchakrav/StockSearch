@@ -39,7 +39,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:weightSum="2"
+        android:weightSum="3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/news_title"
@@ -47,36 +47,53 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/share_drawable">
+
             <ImageButton
                 android:id="@+id/twitter_share_btn"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="70dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/ic_twitter_logo_dialog"
-                android:contentDescription="Twitter Icon"/>
-        </LinearLayout>
 
+                android:background="@drawable/ic_twitter"
+                android:contentDescription="Twitter Icon" />
+        </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/share_drawable">
             <ImageButton
-                android:id="@+id/chrome_view_btn"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:id="@+id/fb_share_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginBottom="10dp"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/ic_chrome"
+                android:background="@drawable/ic_facebook"
                 android:contentDescription="Chrome view"/>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/share_drawable">
+
+            <ImageButton
+                android:id="@+id/chrome_view_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/ic_chrome"
+                android:contentDescription="Chrome view" />
+        </LinearLayout>
     </LinearLayout>
 
 

@@ -21,7 +21,7 @@ public class QuotesService {
             Constants.BASE_URL + "quotes?ticker=";
     public static interface QuotesListener
     {
-        void onResponse(QuoteModel suggestionModels);
+        void onResponse(QuoteModel quoteModel);
         void onError(String error);
     };
 

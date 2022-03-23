@@ -1,4 +1,4 @@
-package com.nikhilchakravartula.stocksearch.adapters;
+package com.nikhilchakravartula.stocksearch.adapters.suggestions;
 
 import android.content.Context;
 import android.util.Log;

@@ -1,4 +1,4 @@
-package com.nikhilchakravartula.stocksearch;
+package com.nikhilchakravartula.stocksearch.utils;
 
 public interface OnDetailsClickListener
 {

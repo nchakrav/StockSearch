@@ -28,7 +28,7 @@ public class SentimentService {
             Constants.BASE_URL + "sentiment?ticker=";
     public static interface SentimentListener
     {
-        void onResponse(Map<String,List<SentimentModel>> sentimentModels);
+        void onResponse(Map<String,SentimentSummary> sentimentModels);
         void onError(String error);
     };
 
@@ -42,31 +42,43 @@ public class SentimentService {
                 URL + text,
                 null,
                 response -> {
-                    Map<String,List<SentimentModel>> sentimentModels = new HashMap<>();
+                    Map<String,SentimentSummary> sentimentSummaryMap = new HashMap<>();
                     try
                     {
                         JSONArray reddit =  response.getJSONArray("reddit");
                         JSONArray twitter =  response.getJSONArray("twitter");
-                        if(reddit!=null ) {
-                            sentimentModels.put("reddit",new ArrayList<SentimentModel>());
-                            for (int i = 0; i < reddit.length(); i++) {
-                                sentimentModels.get("reddit").add(gson.fromJson(reddit.getJSONObject(i).toString(), SentimentModel.class));
+                        if(reddit!=null)
+                        {
+                            SentimentModel[] models = gson.fromJson(reddit.toString(), SentimentModel[].class);
+                            SentimentSummary summary = new SentimentSummary();
+                            for(SentimentModel model:models)
+                            {
+                                summary.setMentions(summary.getMentions()+model.getMention());
+                                summary.setPositiveMentions(summary.getPositiveMentions()+model.getPositiveMention());
+                                summary.setNegativeMentions(summary.getNegativeMentions()+model.getNegativeMention());
                             }
+                            sentimentSummaryMap.put("reddit",summary);
                         }
+
                         if(twitter!=null)
                         {
-                            sentimentModels.put("twitter",new ArrayList<SentimentModel>());
-                            for (int i = 0; i < twitter.length(); i++) {
-                                sentimentModels.get("twitter").add(gson.fromJson(twitter.getJSONObject(i).toString(), SentimentModel.class));
+                            SentimentModel[] models = gson.fromJson(twitter.toString(), SentimentModel[].class);
+                            SentimentSummary summary = new SentimentSummary();
+                            for(SentimentModel model:models)
+                            {
+                                summary.setMentions(summary.getMentions()+model.getMention());
+                                summary.setPositiveMentions(summary.getPositiveMentions()+model.getPositiveMention());
+                                summary.setNegativeMentions(summary.getNegativeMentions()+model.getNegativeMention());
                             }
+                            sentimentSummaryMap.put("twitter",summary);
                         }
                     }
                     catch(Exception e)
                     {
-
+                        e.printStackTrace();
                     }
-                    Log.d("Sentiment Service",sentimentModels.toString());
-                    sentimentListener.onResponse(sentimentModels);
+                    Log.d("Sentiment Service",sentimentSummaryMap.toString());
+                    sentimentListener.onResponse(sentimentSummaryMap);
                 },
                 error -> {
                     Log.d("Sentiment Service","Error "+ error);

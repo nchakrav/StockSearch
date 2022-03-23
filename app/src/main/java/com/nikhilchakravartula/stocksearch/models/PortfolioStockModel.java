@@ -1,10 +1,24 @@
 package com.nikhilchakravartula.stocksearch.models;
 
+import java.util.Objects;
+
 public class PortfolioStockModel extends StockModel{
 
     Double numStocksInvested;
     Double cost;
 
+    public PortfolioStockModel()
+    {
+        this("",0.0,0.0,0.0,0.0);
+    }
+    public PortfolioStockModel(PortfolioStockModel obj)
+    {
+        this(obj.getTicker(),
+                obj.getStockPrice(),
+                obj.getStockChange(),
+                obj.getNumStocksInvested(),
+                obj.getCost());
+    }
     public PortfolioStockModel(String ticker,
                                Double stockPrice,
                                Double stockChange,
@@ -29,6 +43,4 @@ public class PortfolioStockModel extends StockModel{
     public void setCost(Double cost) {
         this.cost = cost;
     }
-
-
 }
